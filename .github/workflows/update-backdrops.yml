@@ -50,15 +50,6 @@ jobs:
           mv collections/genres/None-unknown-none/backdrops/* collections/decades/1960/ 2>/dev/null || true
         fi
         rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "popular" "curated" "ja"
-        mkdir -p collections/languages/japanese/
-        if [ -d "collections/curated/popular-ja/backdrops" ]; then
-          mv collections/curated/popular-ja/backdrops/* collections/languages/japanese/ 2>/dev/null || true
-        elif [ -d "collections/curated/popular/backdrops" ]; then
-          mv collections/curated/popular/backdrops/* collections/languages/japanese/ 2>/dev/null || true
-        fi
-        rm -rf collections/curated 2>/dev/null || true
         
     - name: Clean Python cache folders
       run: |
