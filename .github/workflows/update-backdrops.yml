@@ -38,9 +38,6 @@ jobs:
         MDBLIST_API_KEY: ${{ secrets.MDBLIST_API_KEY }}
       run: |
         chmod +x generate.sh
-        ./generate.sh trending curated
-        ./generate.sh popular curated
-        ./generate.sh top_rated curated
         ./generate.sh --url rjchignell/best-of-the-1950-s
         
 
