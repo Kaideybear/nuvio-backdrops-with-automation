@@ -50,6 +50,48 @@ jobs:
           mv collections/genres/None-unknown-none/backdrops/* collections/decades/1960/ 2>/dev/null || true
         fi
         rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-1970-s" mdblist score
+        mkdir -p collections/decades/1970/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1970/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-1980-s" mdblist score
+        mkdir -p collections/decades/1980/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1980/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-1990-s" mdblist score
+        mkdir -p collections/decades/1990/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1990/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-2000-s" mdblist score
+        mkdir -p collections/decades/2000/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2000/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-2010-s" mdblist score
+        mkdir -p collections/decades/2010/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2010/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "snoak/top-2020s-movies" mdblist score
+        mkdir -p collections/decades/2020/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2020/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
         
     - name: Clean Python cache folders
       run: |
