@@ -53,10 +53,12 @@ jobs:
 
         ./generate.sh "popular" "curated" "ja"
         mkdir -p collections/languages/japanese/
-        if [ -d "collections/curated/popular/backdrops" ]; then
+        if [ -d "collections/curated/popular-ja/backdrops" ]; then
+          mv collections/curated/popular-ja/backdrops/* collections/languages/japanese/ 2>/dev/null || true
+        elif [ -d "collections/curated/popular/backdrops" ]; then
           mv collections/curated/popular/backdrops/* collections/languages/japanese/ 2>/dev/null || true
         fi
-        rm -rf collections/curated/popular 2>/dev/null || true
+        rm -rf collections/curated 2>/dev/null || true
         
     - name: Clean Python cache folders
       run: |
