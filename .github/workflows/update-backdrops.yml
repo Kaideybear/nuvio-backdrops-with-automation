@@ -37,14 +37,9 @@ jobs:
       run: |
         chmod +x generate.sh
         
-        # ── LIST 1: Best of 1950s ──
-        ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score
-        # Extract the images and place them inside output/best-of-the-1950-s/
-        mkdir -p output/1950
-        find output -maxdepth 3 -type d \( -name "None*" -o -name "mdblist" \) -exec cp -r {}/. output/1950/ \; 2>/dev/null || true
-        rm -rf output/None* output/mdblist 2>/dev/null || true
+        # ── LIST 1: 1950s ──
+        ./generate.sh "rjchignell/best-of-the-1950-s" "1950" "score"
         
-
     - name: Clean Python cache folders
       run: |
         find . -type d -name "__pycache__" -prune -exec rm -rf {} +
@@ -53,7 +48,7 @@ jobs:
       id: publish
       run: |
         git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@://github.com"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
         git add .
         if git diff --cached --quiet; then
           echo "No changes to commit."
