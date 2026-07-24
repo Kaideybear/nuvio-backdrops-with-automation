@@ -1,51 +1,37 @@
 #!/bin/bash
 
-# Accepts standard: ./generate.sh "username/slug" mdblist [sort]
+# Usage: ./generate.sh "username/slug" <target_folder_name> [sort_option]
+# Example: ./generate.sh "rjchignell/best-of-the-1950-s" 1950 score
+
 IDS_INPUT=$1
-TYPE=$2
+FOLDER_NAME=$2 # This will now dictate your exact output folder
 EXTRA_PARAM=$3 
 
-SKIP_LOGOS=false
-if [ "$TYPE" == "curated" ] || [ "$TYPE" == "mdblist" ]; then
-    SKIP_LOGOS=true
-fi
+SKIP_LOGOS=true # MDBList doesn't natively pull logos cleanly, keep true
 
-for arg in "$@"; do
-    if [ "$arg" == "--skip-logos" ]; then
-        SKIP_LOGOS=true
-    fi
-done
-
-if [ -z "$IDS_INPUT" ] || [ -z "$TYPE" ]; then
-    echo "Usage: $0 <id/slug> <type> [language/sort] [--skip-logos]"
+if [ -z "$IDS_INPUT" ] || [ -z "$FOLDER_NAME" ]; then
+    echo "Usage: $0 <mdblist-slug> <desired-folder-name> [sort-option]"
     exit 1
 fi
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
 PY_CMD="python3"
 
-if [ "$TYPE" == "mdblist" ]; then
-    TARGET_FLAG="--url $IDS_INPUT"
-    TYPE_FLAG="--type mdblist"
-    if [ -n "$EXTRA_PARAM" ] && [ "$EXTRA_PARAM" != "--skip-logos" ]; then
-        EXTRA_FLAGS="--sort $EXTRA_PARAM"
-    fi
-else
-    TARGET_FLAG="--id $IDS_INPUT"
-    TYPE_FLAG="--type $TYPE"
-    if [ -n "$EXTRA_PARAM" ] && [ "$EXTRA_PARAM" != "--skip-logos" ]; then
-        EXTRA_FLAGS="--language $EXTRA_PARAM"
-    fi
+# ── Force Python to Build Directly into your Target Folder Name ──
+TARGET_FLAG="--url $IDS_INPUT"
+TYPE_FLAG="--type $FOLDER_NAME" # Overrides Python's "None-unknown-none" default
+
+EXTRA_FLAGS=""
+if [ -n "$EXTRA_PARAM" ] && [ "$EXTRA_PARAM" != "--skip-logos" ]; then
+    EXTRA_FLAGS="--sort $EXTRA_PARAM"
 fi
 
 echo "=========================================="
-echo "Processing Native Run: $IDS_INPUT ($TYPE)"
+echo "Processing Run: $IDS_INPUT"
+echo "Target Folder: output/$FOLDER_NAME"
 echo "=========================================="
 
-if [ "$SKIP_LOGOS" = false ]; then
-    $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-fi
-
+# Run scripts using your hardcoded folder path variables
 $PY_CMD "$ROOT_DIR/scripts/backdrop_T1.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
 $PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
 $PY_CMD "$ROOT_DIR/scripts/backdrop_T2.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
