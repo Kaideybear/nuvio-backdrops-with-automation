@@ -47,7 +47,7 @@ jobs:
         ./generate.sh "rjchignell/best-of-the-2010-s" mdblist score
         mkdir -p collections/decades/2010/
         if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/collections/genres/None-unknown-none/backdrops/* collections/decades/2010/ 2>/dev/null || true
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2010/ 2>/dev/null || true
         fi
         rm -rf collections/genres/None-unknown-none 2>/dev/null || true
 
