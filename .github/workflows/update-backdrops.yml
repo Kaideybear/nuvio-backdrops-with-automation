@@ -37,8 +37,8 @@ jobs:
       run: |
         chmod +x generate.sh
         
-        # ── LIST 1: 1950s ──
-        ./generate.sh "rjchignell/best-of-the-1950-s" "1950" "score"
+        # ── 1950s Run (Outputs natively straight into output/1950/) ──
+        ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score "1950"
         
     - name: Clean Python cache folders
       run: |
