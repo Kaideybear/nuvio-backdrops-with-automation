@@ -41,7 +41,7 @@ jobs:
         ./generate.sh trending curated
         ./generate.sh popular curated
         ./generate.sh top_rated curated
-        ./generate.sh rjchignell/best-of-the-1950-s
+        ./generate.sh --url rjchignell/best-of-the-1950-s
         
 
     - name: Clean Python cache folders
