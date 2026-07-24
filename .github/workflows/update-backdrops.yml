@@ -2,11 +2,9 @@ name: Update Nuvio Backdrops
 
 on:
   schedule:
-    # Runs at 00:00 UTC every Sunday
-    - cron: '0 0 * * 0'
-  workflow_dispatch: # Allows you to trigger the script manually from the Actions tab
+    - cron: '0 0 * * 0' # Runs every Sunday at 00:00 UTC
+  workflow_dispatch:
 
-# Moved out of 'on:' to the top level
 permissions:
   contents: write
 
@@ -18,13 +16,13 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        fetch-depth: 1 # Changed to 1 to speed up cloning
+        fetch-depth: 1
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12' # Fixed invalid key 'python-node-version'
-        cache: 'pip' # Enables automatic caching for faster runs
+        python-version: '3.12'
+        cache: 'pip'
 
     - name: Install Python dependencies
       run: |
@@ -39,7 +37,12 @@ jobs:
       run: |
         chmod +x generate.sh
         
+        # ── LIST 1: Best of 1950s ──
         ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score
+        # Extract the images and place them inside output/best-of-the-1950-s/
+        mkdir -p output/1950
+        find output -maxdepth 3 -type d \( -name "None*" -o -name "mdblist" \) -exec cp -r {}/. output/1950/ \; 2>/dev/null || true
+        rm -rf output/None* output/mdblist 2>/dev/null || true
         
 
     - name: Clean Python cache folders
@@ -50,13 +53,13 @@ jobs:
       id: publish
       run: |
         git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config user.email "41898282+github-actions[bot]@://github.com"
         git add .
         if git diff --cached --quiet; then
           echo "No changes to commit."
           echo "changed=false" >> "$GITHUB_OUTPUT"
           exit 0
         fi
-        git commit -m "chore: refresh collection backdrops [skip ci]" # Added [skip ci] to prevent loops
+        git commit -m "chore: refresh collection backdrops [skip ci]"
         git push
         echo "changed=true" >> "$GITHUB_OUTPUT"
