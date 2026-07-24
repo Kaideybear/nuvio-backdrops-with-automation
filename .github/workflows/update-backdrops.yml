@@ -38,7 +38,7 @@ jobs:
         MDBLIST_API_KEY: ${{ secrets.MDBLIST_API_KEY }}
       run: |
         chmod +x generate.sh
-        ./generate.sh --url rjchignell/best-of-the-1950-s
+        ./generate.sh rjchignell/best-of-the-1950-s mdblist score
         
 
     - name: Clean Python cache folders
