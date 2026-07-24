@@ -27,72 +27,73 @@ fi
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
 PY_CMD="python3"
 
-# ── Determine Python Flags ──
+# ── Configure Correct Flags For NATIVE Script Processing ──
 if [ "$TYPE" == "mdblist" ]; then
+    # Native flag MDBList expects
     TARGET_FLAG="--url $IDS_INPUT"
     
-    # Extract the list name (e.g., best-of-the-1950-s) and force it as the Type 
-    # so the Python script builds an isolated directory automatically!
-    SLUG_TYPE=$(echo "$IDS_INPUT" | awk -F'/' '{print $2}')
-    TYPE_FLAG="--type $SLUG_TYPE"
+    # Standardize type back to "mdblist" so internal data queries don't break
+    TYPE_FLAG="--type mdblist"
     
+    # Extract the slug name (e.g., best-of-the-1950-s)
+    SLUG_NAME=$(echo "$IDS_INPUT" | awk -F'/' '{print $2}')
+    
+    # Map sort type safely if provided
     if [ -n "$EXTRA_PARAM" ] && [ "$EXTRA_PARAM" != "--skip-logos" ]; then
         EXTRA_FLAGS="--sort $EXTRA_PARAM"
     fi
 else
     TARGET_FLAG="--id $IDS_INPUT"
+    TYPE_FLAG="--type $TYPE"
+    SLUG_NAME=""
     
     if [ -n "$EXTRA_PARAM" ] && [ "$EXTRA_PARAM" != "--skip-logos" ]; then
-        # If language code is passed, mutate the type flag so folders split (e.g. network_zh)
-        TYPE_FLAG="--type ${TYPE}_${EXTRA_PARAM}"
         EXTRA_FLAGS="--language $EXTRA_PARAM"
-    else
-        TYPE_FLAG="--type $TYPE"
     fi
 fi
 
-# ── Safe Check for Mixed IDs ──
-if [[ "$IDS_INPUT" == *"-"* ]] && [[ "$IDS_INPUT" != *"-movies"* ]] && [[ "$IDS_INPUT" != *"-tv"* ]] && [[ "$IDS_INPUT" != *"/"* ]]; then
-    echo "── 🔀 Mixed IDs detected: $IDS_INPUT"
-    CLEAN_IDS=$(echo "$IDS_INPUT" | tr '-' ' ')
+echo "=========================================="
+echo "Processing: $IDS_INPUT ($TYPE)"
+echo "=========================================="
+
+if [ "$SKIP_LOGOS" = false ]; then
+    echo "── 1. Pulling logos..."
+    $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+fi
+
+# Run the python backdrop generators explicitly using native flags
+echo ""
+echo "── 2. Generating T1 Backdrops..."
+$PY_CMD "$ROOT_DIR/scripts/backdrop_T1.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+
+echo ""
+echo "── 3. Generating T1 Flat Backdrops..."
+$PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+
+echo ""
+echo "── 4. Generating T2 Backdrops..."
+$PY_CMD "$ROOT_DIR/scripts/backdrop_T2.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+
+echo ""
+echo "── 5. Generating T2 Flat Backdrops..."
+$PY_CMD "$ROOT_DIR/scripts/backdrop_T2_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+
+# ── POST-PROCESSING: Fix Folder Paths If MDBList Generated Generic Folder Names ──
+# If MDBList defaults output names, forcefully relocate them to isolated, readable folders
+if [ "$TYPE" == "mdblist" ] && [ -n "$SLUG_NAME" ]; then
+    echo ""
+    echo "── 🚚 Custom Relocation Engine Activating..."
     
-    if [ "$SKIP_LOGOS" = false ]; then
-        echo "── 1. Pulling logos for mixed sources..."
-        for ID in $CLEAN_IDS; do
-            $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" --id "$ID" $TYPE_FLAG $EXTRA_FLAGS
-        done
-    fi
-
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T1.py" --id $CLEAN_IDS $TYPE_FLAG $EXTRA_FLAGS
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" --id $CLEAN_IDS $TYPE_FLAG $EXTRA_FLAGS
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T2.py" --id $CLEAN_IDS $TYPE_FLAG $EXTRA_FLAGS
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T2_flat.py" --id $CLEAN_IDS $TYPE_FLAG $EXTRA_FLAGS
-
-else
-    echo "=========================================="
-    echo "Processing: $IDS_INPUT ($TYPE) | Target Folder: $SLUG_TYPE"
-    echo "=========================================="
-
-    if [ "$SKIP_LOGOS" = false ]; then
-        echo "── 1. Pulling logos..."
-        $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-    fi
-
-    echo ""
-    echo "── 2. Generating T1 Backdrops..."
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T1.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-
-    echo ""
-    echo "── 3. Generating T1 Flat Backdrops..."
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-
-    echo ""
-    echo "── 4. Generating T2 Backdrops..."
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T2.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-
-    echo ""
-    echo "── 5. Generating T2 Flat Backdrops..."
-    $PY_CMD "$ROOT_DIR/scripts/backdrop_T2_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+    # Look for generic outputs or 'None' directories and name them appropriately
+    for dir in output/*/mdblist output/*/None* output/None-unknown-none; do
+        if [ -d "$dir" ]; then
+            PARENT_DIR=$(dirname "$dir")
+            echo "Moving $dir -> $PARENT_DIR/$SLUG_NAME"
+            mkdir -p "$PARENT_DIR/$SLUG_NAME"
+            mv "$dir"/* "$PARENT_DIR/$SLUG_NAME/" 2>/dev/null
+            rmdir "$dir" 2>/dev/null
+        fi
+    done
 fi
 
 echo "=========================================="
