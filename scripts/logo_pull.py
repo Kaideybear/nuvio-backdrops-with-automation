@@ -211,11 +211,11 @@ def download_logos(tmdb_id, id_type, max_logos, folder=None):
         subfolder = "providers"
     else:
         subfolder = "genres"
-        
+
     if folder:
-    brand_folder = BASE_DIR / folder
-else:
-    brand_folder = BASE_DIR / subfolder / f"{tmdb_id}-{slug}"
+        brand_folder = BASE_DIR / folder
+    else:
+        brand_folder = BASE_DIR / subfolder / f"{tmdb_id}-{slug}"
     
     # Rest of your original logo_pull logic continues here...
     color_dir = brand_folder / "logos" / "color"
@@ -305,15 +305,22 @@ else:
 
     print(f"  Successfully pulled {count} unique logos.\n")
 
-    if folder:
-    brand_folder = BASE_DIR / folder
-else:
-    brand_folder = BASE_DIR / subfolder / f"{tmdb_id}-{slug}"
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("--id", nargs="+", required=True)
+    parser.add_argument("--type", required=True)
+    parser.add_argument("--max", type=int, default=MAX_LOGOS)
+    parser.add_argument("--folder", default=None)
+
+    args = parser.parse_args()
 
     for i in args.id:
-    download_logos(
-        i,
-        args.type,
-        args.max,
-        args.folder,
-    )
+        download_logos(
+            i,
+            args.type,
+            args.max,
+            args.folder,
+        )
+    
