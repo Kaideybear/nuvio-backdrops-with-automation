@@ -1007,122 +1007,137 @@ def main():
     # ── Adaptive Output Paths ─────────────────────────────────────────────────
     BASE_DIR = Path(__file__).resolve().parent.parent / "collections"
 
-# -----------------------------------------
-# Custom folder override
-# -----------------------------------------
-if args.folder:
-    out_dir = BASE_DIR / args.folder / "backdrops"
-
-else:
-    single_id = args.id[0] if args.id else None
-
-    if args.type == "curated":
-        subfolder = "curated"
-        brand_name = str(tmdb_ids[0]).lower().replace("_", "-")
-        out_dir = BASE_DIR / subfolder / brand_name / "backdrops"
+    # -----------------------------------------
+    # Custom folder override
+    # -----------------------------------------
+    if args.folder:
+        out_dir = BASE_DIR / args.folder / "backdrops"
 
     else:
-        if args.type == "network":
-            subfolder = "networks"
-            api_type = "network"
-        elif args.type in ("company", "production_company"):
-            subfolder = "companies"
-            api_type = "company"
-        elif args.type == "provider":
-            subfolder = "providers"
-            api_type = "provider"
+        single_id = args.id[0] if args.id else None
+
+        if args.type == "curated":
+            subfolder = "curated"
+            brand_name = str(tmdb_ids[0]).lower().replace("_", "-")
+            out_dir = BASE_DIR / subfolder / brand_name / "backdrops"
+
         else:
-            subfolder = "genres"
-            api_type = "genre"
+            if args.type == "network":
+                subfolder = "networks"
+                api_type = "network"
+            elif args.type in ("company", "production_company"):
+                subfolder = "companies"
+                api_type = "company"
+            elif args.type == "provider":
+                subfolder = "providers"
+                api_type = "provider"
+            else:
+                subfolder = "genres"
+                api_type = "genre"
 
-        if api_type == "provider":
-            brand_name = f"unknown-{single_id}"
+            if api_type == "provider":
+                brand_name = f"unknown-{single_id}"
 
-            try:
-                for endpoint in (
-                    "/watch/providers/tv",
-                    "/watch/providers/movie",
-                ):
+                try:
+                    for endpoint in (
+                        "/watch/providers/tv",
+                        "/watch/providers/movie",
+                    ):
+                        r = requests.get(
+                            f"https://api.themoviedb.org/3{endpoint}",
+                            params={
+                                "api_key": TMDB_API_KEY,
+                                "watch_region": "US",
+                            },
+                            timeout=10,
+                        )
+
+                        if r.status_code == 200:
+                            providers = r.json().get("results", [])
+                            match = next(
+                                (
+                                    p
+                                    for p in providers
+                                    if p.get("provider_id") == int(single_id)
+                                ),
+                                None,
+                            )
+
+                            if match:
+                                brand_name = match["provider_name"]
+                                break
+
+                except Exception:
+                    pass
+
+            else:
+                try:
                     r = requests.get(
-                        f"https://api.themoviedb.org/3{endpoint}",
-                        params={
-                            "api_key": TMDB_API_KEY,
-                            "watch_region": "US",
-                        },
+                        f"https://api.themoviedb.org/3/{api_type}/{single_id}",
+                        params={"api_key": TMDB_API_KEY},
                         timeout=10,
                     )
 
-                    if r.status_code == 200:
-                        providers = r.json().get("results", [])
-                        match = next(
-                            (
-                                p
-                                for p in providers
-                                if p.get("provider_id") == single_id
-                            ),
-                            None,
-                        )
+                    r.raise_for_status()
+                    data = r.json()
 
-                        if match:
-                            brand_name = match["provider_name"]
-                            break
+                    brand_name = (
+                        data.get("name")
+                        or data.get("title")
+                        or f"unknown-{single_id}"
+                    )
 
-            except Exception:
-                pass
+                except Exception:
+                    brand_name = f"unknown-{single_id}"
 
-        else:
-            try:
-                r = requests.get(
-                    f"https://api.themoviedb.org/3/{api_type}/{single_id}",
-                    params={"api_key": TMDB_API_KEY},
-                    timeout=10,
-                )
+            slug = re.sub(
+                r"[^a-z0-9]+",
+                "-",
+                brand_name.lower()
+            ).strip("-")
 
-                r.raise_for_status()
+            out_dir = (
+                BASE_DIR
+                / subfolder
+                / f"{single_id}-{slug}"
+                / "backdrops"
+            )
 
-                data = r.json()
+    out_dir.mkdir(parents=True, exist_ok=True)
 
-                brand_name = (
-                    data.get("name")
-                    or data.get("title")
-                    or f"unknown-{single_id}"
-                )
-
-            except Exception:
-                brand_name = f"unknown-{single_id}"
-
-        slug = re.sub(
-            r"[^a-z0-9]+",
-            "-",
-            brand_name.lower()
-        ).strip("-")
-
-        out_dir = (
-            BASE_DIR
-            / subfolder
-            / f"{single_id}-{slug}"
-            / "backdrops"
-        )
-
-out_dir.mkdir(parents=True, exist_ok=True)
     file_4k = out_dir / "t1_flat_4k.jpg"
     file_1080p = out_dir / "t1_flat_1080p.jpg"
 
-    # Save using the blurred dof4k image
-    _save(_apply_gradient(dof4k, accent, show_grad), file_4k)
+    # Save 4K
+    _save(
+        _apply_gradient(dof4k, accent, show_grad),
+        file_4k
+    )
 
     print("Compositing 1080p (1920×1080)…")
-    over1080, ox1080, oy1080 = _build_layout(landscape_imgs, 1920, 1080, scale=1.0)
-    warped1080 = _perspective_warp(over1080, ox1080, oy1080, 1920, 1080, POV_X, POV_Y)
-    
-    # Restored here too: Apply the depth of field blur
+
+    over1080, ox1080, oy1080 = _build_layout(
+        landscape_imgs,
+        1920,
+        1080,
+        scale=1.0
+    )
+
+    warped1080 = _perspective_warp(
+        over1080,
+        ox1080,
+        oy1080,
+        1920,
+        1080,
+        POV_X,
+        POV_Y
+    )
+
     dof1080 = _apply_dof(warped1080, scale=1.0)
-    
-    # Save using the blurred dof1080 image
-    _save(_apply_gradient(dof1080, accent, show_grad), file_1080p)
+
+    _save(
+        _apply_gradient(dof1080, accent, show_grad),
+        file_1080p
+    )
 
     print(f"\n  ✓ T1 Backdrops saved to: {out_dir.relative_to(BASE_DIR.parent)}")
-
-
-if __name__ == "__main__":
-    main()
