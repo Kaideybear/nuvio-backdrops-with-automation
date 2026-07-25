@@ -37,190 +37,69 @@ jobs:
       run: |
         chmod +x generate.sh
 
-        ./generate.sh popular curated
-        ./generate.sh trending curated
-        ./generate.sh top_rated curated
-        ./generate.sh 7899 company
-        ./generate.sh 429 company
-        ./generate.sh 7 company
-        ./generate.sh 10342 company
-        ./generate.sh 420 company
-        ./generate.sh 4859 company
-        ./generate.sh 3 company
-        ./generate.sh 1 company
-        ./generate.sh 198847 company
-        ./generate.sh 28 genre
-        ./generate.sh 16 genre
-        ./generate.sh 35 genre
-        ./generate.sh 80 genre
-        ./generate.sh 99 genre
-        ./generate.sh 18 genre
-        ./generate.sh 10762 genre
-        ./generate.sh 14 genre
-        ./generate.sh 10768-36 genre
-        ./generate.sh 27 genre
-        ./generate.sh 10402 genre
-        ./generate.sh 9648 genre
-        ./generate.sh 10764 genre
-        ./generate.sh 10749 genre
-        ./generate.sh 53 genre
-        ./generate.sh 37 genre
-        ./generate.sh 8 provider
-        ./generate.sh 337 provider
-        ./generate.sh 9 provider
-        ./generate.sh 350 provider
-        ./generate.sh 1899 provider
-        ./generate.sh 15 provider
-        ./generate.sh 2303 provider
-        ./generate.sh 386 provider
-        ./generate.sh 520 provider
+        ./generate.sh popular curated --folder curated/popular
+        ./generate.sh trending curated --folder curated/trending
+        ./generate.sh top_rated curated --folder curated/top_rated
         
-        ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score
-        mkdir -p collections/decades/1950/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1950/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+        ./generate.sh 7899 company --folder company/marvel-studios
+        ./generate.sh 429 company --folder company/dc-comics
+        ./generate.sh 7 company --folder company/dreamworks
+        ./generate.sh 10342 company --folder company/20th-century-fox
+        ./generate.sh 420 company --folder company/marvel-entertainment
+        ./generate.sh 4859 company --folder company/lionsgate
+        ./generate.sh 3 company --folder company/pixar
+        ./generate.sh 1 company --folder company/lucasfilm
+        ./generate.sh 198847 company --folder company/a24
         
-        ./generate.sh "rjchignell/best-of-the-1960-s" mdblist score
-        mkdir -p collections/decades/1960/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1960/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+        ./generate.sh 28 genre --folder genre/action
+        ./generate.sh 16 genre --folder genre/animation
+        ./generate.sh 35 genre --folder genre/comedy
+        ./generate.sh 80 genre --folder genre/crime
+        ./generate.sh 99 genre --folder genre/documentary
+        ./generate.sh 18 genre --folder genre/drama
+        ./generate.sh 10762 genre --folder genre/kids
+        ./generate.sh 14 genre --folder genre/fantasy
+        ./generate.sh 10768-36 genre --folder genre/war-history
+        ./generate.sh 27 genre --folder genre/horror
+        ./generate.sh 10402 genre --folder genre/music
+        ./generate.sh 9648 genre --folder genre/mystery
+        ./generate.sh 10764 genre --folder genre/reality
+        ./generate.sh 10749 genre --folder genre/romance
+        ./generate.sh 53 genre --folder genre/thriller
+        ./generate.sh 37 genre --folder genre/western
+        
+        ./generate.sh 8 provider --folder provider/netflix
+        ./generate.sh 337 provider --folder provider/disney-plus
+        ./generate.sh 9 provider --folder provider/prime-video
+        ./generate.sh 350 provider --folder provider/apple-tv-plus
+        ./generate.sh 1899 provider --folder provider/max
+        ./generate.sh 15 provider --folder provider/hulu
+        ./generate.sh 2303 provider --folder provider/paramount-plus
+        ./generate.sh 386 provider --folder provider/peacock
+        ./generate.sh 520 provider --folder provider/discovery-plus
 
-        ./generate.sh "rjchignell/best-of-the-1970-s" mdblist score
-        mkdir -p collections/decades/1970/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1970/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "rjchignell/best-of-the-1980-s" mdblist score
-        mkdir -p collections/decades/1980/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1980/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "rjchignell/best-of-the-1990-s" mdblist score
-        mkdir -p collections/decades/1990/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/1990/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "rjchignell/best-of-the-2010-s" mdblist score
-        mkdir -p collections/decades/2000/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2000/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "rjchignell/best-of-the-2010-s-cbdd0502-c40f-4224-9152-361e0a991a9b" mdblist score
-        mkdir -p collections/decades/2010/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2010/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "snoak/top-2020s-movies" mdblist score
-        mkdir -p collections/decades/2020/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2020/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey/brazilian-trending" mdblist score
-        mkdir -p collections/languages/brazilian/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/brazilian/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey/chinese-trending" mdblist score
-        mkdir -p collections/languages/chinese/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/chinese/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey/german-trending" mdblist score
-        mkdir -p collections/languages/german/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/german/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey/spanish-trending" mdblist score
-        mkdir -p collections/languages/spanish/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/spanish/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey2/french-trending" mdblist score
-        mkdir -p collections/languages/french/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/french/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey2/indian-trending" mdblist score
-        mkdir -p collections/languages/indian/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/indian/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey2/italian-trending" mdblist score
-        mkdir -p collections/languages/italian/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/italian/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey2/japanese-trending" mdblist score
-        mkdir -p collections/languages/japanese/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/japanese/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey3/korean-trending" mdblist score
-        mkdir -p collections/languages/korean/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/korean/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey3/latin-american-trending" mdblist score
-        mkdir -p collections/languages/latin-american/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/latin-american/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey3/nordic-trending" mdblist score
-        mkdir -p collections/languages/nordic/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/nordic/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey3/russian-trending" mdblist score
-        mkdir -p collections/languages/russian/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/russian/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
-
-        ./generate.sh "kaidey4/turkish-trending" mdblist score
-        mkdir -p collections/languages/turkish/
-        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
-          mv collections/genres/None-unknown-none/backdrops/* collections/languages/turkish/ 2>/dev/null || true
-        fi
-        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+        ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score --folder decades/1950
+        ./generate.sh "rjchignell/best-of-the-1960-s" mdblist score --folder decades/1960
+        ./generate.sh "rjchignell/best-of-the-1970-s" mdblist score --folder decades/1970
+        ./generate.sh "rjchignell/best-of-the-1980-s" mdblist score --folder decades/1980
+        ./generate.sh "rjchignell/best-of-the-1990-s" mdblist score --folder decades/1990
+        ./generate.sh "rjchignell/best-of-the-2010-s" mdblist score --folder decades/2000
+        ./generate.sh "rjchignell/best-of-the-2010-s-cbdd0502-c40f-4224-9152-361e0a991a9b" mdblist score --folder decades/2010
+        ./generate.sh "snoak/top-2020s-movies" mdblist score --folder decades/2020
+        
+        ./generate.sh "kaidey/brazilian-trending" mdblist score --folder languages/brazilian
+        ./generate.sh "kaidey/chinese-trending" mdblist score --folder languages/chinese
+        ./generate.sh "kaidey/german-trending" mdblist score --folder languages/german
+        ./generate.sh "kaidey/spanish-trending" mdblist score --folder languages/spanish
+        ./generate.sh "kaidey2/french-trending" mdblist score --folder languages/french
+        ./generate.sh "kaidey2/indian-trending" mdblist score --folder languages/indian
+        ./generate.sh "kaidey2/italian-trending" mdblist score --folder languages/italian
+        ./generate.sh "kaidey2/japanese-trending" mdblist score --folder languages/japanese
+        ./generate.sh "kaidey3/korean-trending" mdblist score --folder languages/korean
+        ./generate.sh "kaidey3/latin-american-trending" mdblist score --folder languages/latin-american
+        ./generate.sh "kaidey3/nordic-trending" mdblist score --folder languages/nordic
+        ./generate.sh "kaidey3/russian-trending" mdblist score --folder languages/russian
+        ./generate.sh "kaidey4/turkish-trending" mdblist score --folder languages/turkish
         
     - name: Clean Python cache folders
       run: |
