@@ -1,8 +1,29 @@
 #!/bin/bash
 
-IDS_INPUT=$1
-TYPE=$2
-EXTRA_PARAM=$3
+ARGS_RAW=()
+CUSTOM_FOLDER=""
+SKIP_LOGOS=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --folder)
+            CUSTOM_FOLDER="$2"
+            shift 2
+            ;;
+        --skip-logos)
+            SKIP_LOGOS=true
+            shift
+            ;;
+        *)
+            ARGS_RAW+=("$1")
+            shift
+            ;;
+    esac
+done
+
+IDS_INPUT="${ARGS_RAW[0]:-}"
+TYPE="${ARGS_RAW[1]:-}"
+EXTRA_PARAM="${ARGS_RAW[2]:-}"
 
 CUSTOM_FOLDER=""
 SKIP_LOGOS=false
