@@ -1,15 +1,3 @@
-# Automation Script
-
-I've added an automation script and enhanced generate.sh with support for MDBList flags. These changes streamline generation workflows and allow configurable MDBList integration through command-line options.
-
-### Example
-
-```
-./generate.sh "/kaidey/spanish-trending" mdblist score 
-```
-
----
-
 # Prism Wallpapers
 
 An advanced automation suite for creating luxury media backdrops and logo cards. Designed to construct perfectly balanced, visually high-end brand assets using custom visual math, dynamic perspective warping, and spatial gradient mesh engines.
