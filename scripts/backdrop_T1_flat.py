@@ -1141,5 +1141,6 @@ def main():
     )
 
     print(f"\n  ✓ T1 Backdrops saved to: {out_dir.relative_to(BASE_DIR.parent)}")
-    if __name__ == "__main__":
+
+if __name__ == "__main__":
         main()
