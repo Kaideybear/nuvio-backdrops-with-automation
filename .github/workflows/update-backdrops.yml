@@ -37,9 +37,9 @@ jobs:
       run: |
         chmod +x generate.sh
 
-        ./generate.sh popular
-        ./generate.sh trending
-        ./generate.sh top_rated
+        ./generate.sh popular curated
+        ./generate.sh trending curated
+        ./generate.sh top_rated curated
         ./generate.sh 7899 company
         ./generate.sh 429 company
         ./generate.sh 7 company
