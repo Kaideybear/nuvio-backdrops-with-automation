@@ -36,6 +36,44 @@ jobs:
         MDBLIST_API_KEY: ${{ secrets.MDBLIST_API_KEY }}
       run: |
         chmod +x generate.sh
+
+        ./generate.sh popular
+        ./generate.sh trending
+        ./generate.sh top_rated
+        ./generate.sh 7899 company
+        ./generate.sh 429 company
+        ./generate.sh 7 company
+        ./generate.sh 10342 company
+        ./generate.sh 420 company
+        ./generate.sh 4859 company
+        ./generate.sh 3 company
+        ./generate.sh 1 company
+        ./generate.sh 198847 company
+        ./generate.sh 28 genre
+        ./generate.sh 16 genre
+        ./generate.sh 35 genre
+        ./generate.sh 80 genre
+        ./generate.sh 99 genre
+        ./generate.sh 18 genre
+        ./generate.sh 10762 genre
+        ./generate.sh 14 genre
+        ./generate.sh 10768-36 genre
+        ./generate.sh 27 genre
+        ./generate.sh 10402 genre
+        ./generate.sh 9648 genre
+        ./generate.sh 10764 genre
+        ./generate.sh 10749 genre
+        ./generate.sh 53 genre
+        ./generate.sh 37 genre
+        ./generate.sh 8 provider
+        ./generate.sh 337 provider
+        ./generate.sh 9 provider
+        ./generate.sh 350 provider
+        ./generate.sh 1899 provider
+        ./generate.sh 15 provider
+        ./generate.sh 2303 provider
+        ./generate.sh 386 provider
+        ./generate.sh 520 provider
         
         ./generate.sh "rjchignell/best-of-the-1950-s" mdblist score
         mkdir -p collections/decades/1950/
