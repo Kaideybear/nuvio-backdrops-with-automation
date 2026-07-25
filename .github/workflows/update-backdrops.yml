@@ -71,6 +71,27 @@ jobs:
           mv collections/genres/None-unknown-none/backdrops/* collections/decades/1990/ 2>/dev/null || true
         fi
         rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-2010-s" mdblist score
+        mkdir -p collections/decades/2000/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2000/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "rjchignell/best-of-the-2010-s-cbdd0502-c40f-4224-9152-361e0a991a9b" mdblist score
+        mkdir -p collections/decades/2010/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2010/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "snoak/top-2020s-movies" mdblist score
+        mkdir -p collections/decades/2020/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/decades/2020/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
         
     - name: Clean Python cache folders
       run: |
