@@ -60,7 +60,4 @@ if [ "$SKIP_LOGOS" = false ]; then
     $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
 fi
 
-$PY_CMD "$ROOT_DIR/scripts/backdrop_T1.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
 $PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-$PY_CMD "$ROOT_DIR/scripts/backdrop_T2.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
-$PY_CMD "$ROOT_DIR/scripts/backdrop_T2_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
