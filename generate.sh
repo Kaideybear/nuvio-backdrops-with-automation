@@ -38,24 +38,26 @@ fi
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE}")" && pwd)"
 PY_CMD="python3"
 
+ARGS=()
+
 if [ "$TYPE" == "mdblist" ]; then
-    TARGET_FLAG="--url \"$IDS_INPUT\""
-    TYPE_FLAG="--type mdblist"
+    ARGS+=(--url "$IDS_INPUT")
+    ARGS+=(--type mdblist)
 
     if [ -n "$EXTRA_PARAM" ]; then
-        EXTRA_FLAGS="--sort $EXTRA_PARAM"
+        ARGS+=(--sort "$EXTRA_PARAM")
     fi
 else
-    TARGET_FLAG="--id $IDS_INPUT"
-    TYPE_FLAG="--type $TYPE"
+    ARGS+=(--id "$IDS_INPUT")
+    ARGS+=(--type "$TYPE")
 
     if [ -n "$EXTRA_PARAM" ]; then
-        EXTRA_FLAGS="--language $EXTRA_PARAM"
+        ARGS+=(--language "$EXTRA_PARAM")
     fi
 fi
 
 if [ -n "$CUSTOM_FOLDER" ]; then
-    EXTRA_FLAGS="$EXTRA_FLAGS --folder $CUSTOM_FOLDER"
+    ARGS+=(--folder "$CUSTOM_FOLDER")
 fi
 
 echo "=========================================="
@@ -64,7 +66,7 @@ echo "Folder: ${CUSTOM_FOLDER:-auto}"
 echo "=========================================="
 
 if [ "$SKIP_LOGOS" = false ]; then
-    $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+    $PY_CMD "$ROOT_DIR/scripts/logo_pull.py" "${ARGS[@]}"
 fi
 
-eval $PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" $TARGET_FLAG $TYPE_FLAG $EXTRA_FLAGS
+$PY_CMD "$ROOT_DIR/scripts/backdrop_T1_flat.py" "${ARGS[@]}"
