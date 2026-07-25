@@ -5,7 +5,7 @@ I've added an automation script and enhanced generate.sh with support for MDBLis
 ### Usage Examples
 
 ```
-./generate.sh "/kaidey/spanish-trending" 
+./generate.sh "/kaidey/spanish-trending" mdblist score 
 ```
 
 ---
