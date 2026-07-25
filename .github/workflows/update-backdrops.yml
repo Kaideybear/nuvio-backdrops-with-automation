@@ -42,12 +42,12 @@ jobs:
         ./generate.sh top_rated curated --folder curated/top_rated
         ./generate.sh 10765-27 genre --folder curated/recommended
         
-        ./generate.sh 7899 company --folder company/marvel-studios
+        ./generate.sh 7899 company --folder company/cartoon-network
         ./generate.sh 429 company --folder company/dc-comics
         ./generate.sh 7 company --folder company/dreamworks
-        ./generate.sh 10342 company --folder company/20th-century-fox
+        ./generate.sh 10342 company --folder company/studio-ghibli
         ./generate.sh 420 company --folder company/marvel-entertainment
-        ./generate.sh 4859 company --folder company/lionsgate
+        ./generate.sh 4859 company --folder company/nickelodeon
         ./generate.sh 3 company --folder company/pixar
         ./generate.sh 1 company --folder company/lucasfilm
         ./generate.sh 198847 company --folder company/crunchyroll
