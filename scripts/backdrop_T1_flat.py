@@ -912,6 +912,11 @@ def main():
                         help="MDBList URL or 'username/list-slug'")
     parser.add_argument("--sort", default="score.desc", help="MDBList sort, e.g. imdbrating.desc or score.desc")
     parser.add_argument("--output",      default=None)
+    parser.add_argument(
+    "--folder",
+    default=None,
+    help="Custom folder under collections/"
+)
     parser.add_argument("--no-gradient", action="store_true")
     args = parser.parse_args()
 
