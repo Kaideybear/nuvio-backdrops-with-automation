@@ -95,3 +95,8 @@ if [[ "$SKIP_LOGOS" == false ]]; then
 fi
 
 "$PY_CMD" "$ROOT_DIR/scripts/backdrop_T1_flat.py" "${ARGS[@]}"
+
+FAILED=0
+"$PY_CMD" "$ROOT_DIR/scripts/logo_pull.py" "${ARGS[@]}" || FAILED=1
+"$PY_CMD" "$ROOT_DIR/scripts/backdrop_T1_flat.py" "${ARGS[@]}" || FAILED=1
+exit $FAILED
