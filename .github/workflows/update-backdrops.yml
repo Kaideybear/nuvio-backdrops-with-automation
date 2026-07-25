@@ -48,7 +48,7 @@ jobs:
         ./generate.sh 4859 company
         ./generate.sh 3 company
         ./generate.sh 1 company
-        ./generate.sh 198847 company
+        ./generate.sh 198847 company # For Anime Genre
         ./generate.sh 28 genre
         ./generate.sh 16 genre
         ./generate.sh 35 genre
