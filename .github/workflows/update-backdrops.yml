@@ -92,6 +92,97 @@ jobs:
           mv collections/genres/None-unknown-none/backdrops/* collections/decades/2020/ 2>/dev/null || true
         fi
         rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey/brazilian-trending" mdblist score
+        mkdir -p collections/languages/brazilian/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/brazilian/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey/chinese-trending" mdblist score
+        mkdir -p collections/languages/chinese/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/chinese/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey/german-trending" mdblist score
+        mkdir -p collections/languages/german/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/german/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey/spanish-trending" mdblist score
+        mkdir -p collections/languages/spanish/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/spanish/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey2/french-trending" mdblist score
+        mkdir -p collections/languages/french/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/french/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey2/indian-trending" mdblist score
+        mkdir -p collections/languages/indian/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/indian/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey2/italian-trending" mdblist score
+        mkdir -p collections/languages/italian/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/italian/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey2/japanese-trending" mdblist score
+        mkdir -p collections/languages/japanese/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/japanese/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey3/korean-trending" mdblist score
+        mkdir -p collections/languages/korean/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/korean/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey3/latin-american-trending" mdblist score
+        mkdir -p collections/languages/latin-american/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/latin-american/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey3/nordic-trending" mdblist score
+        mkdir -p collections/languages/nordic/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/nordic/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey3/russian-trending" mdblist score
+        mkdir -p collections/languages/russian/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/russian/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
+
+        ./generate.sh "kaidey4/turkish-trending" mdblist score
+        mkdir -p collections/languages/turkish/
+        if [ -d "collections/genres/None-unknown-none/backdrops" ]; then
+          mv collections/genres/None-unknown-none/backdrops/* collections/languages/turkish/ 2>/dev/null || true
+        fi
+        rm -rf collections/genres/None-unknown-none 2>/dev/null || true
         
     - name: Clean Python cache folders
       run: |
