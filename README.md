@@ -2,7 +2,7 @@
 
 I've added an automation script and enhanced generate.sh with support for MDBList flags. These changes streamline generation workflows and allow configurable MDBList integration through command-line options.
 
-### Usage Examples
+### Example
 
 ```
 ./generate.sh "/kaidey/spanish-trending" mdblist score 
