@@ -40,6 +40,7 @@ jobs:
         ./generate.sh popular curated --folder curated/popular
         ./generate.sh trending curated --folder curated/trending
         ./generate.sh top_rated curated --folder curated/top_rated
+        ./generate.sh 10765-27 genre --folder curated/recommended
         
         ./generate.sh 7899 company --folder company/marvel-studios
         ./generate.sh 429 company --folder company/dc-comics
@@ -49,7 +50,7 @@ jobs:
         ./generate.sh 4859 company --folder company/lionsgate
         ./generate.sh 3 company --folder company/pixar
         ./generate.sh 1 company --folder company/lucasfilm
-        ./generate.sh 198847 company --folder company/a24
+        ./generate.sh 198847 company --folder company/crunchyroll
         
         ./generate.sh 28 genre --folder genre/action
         ./generate.sh 16 genre --folder genre/animation
