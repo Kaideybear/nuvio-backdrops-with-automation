@@ -1006,14 +1006,21 @@ def main():
 
     # ── Adaptive Output Paths ─────────────────────────────────────────────────
     BASE_DIR = Path(__file__).resolve().parent.parent / "collections"
-    
+
+# -----------------------------------------
+# Custom folder override
+# -----------------------------------------
+if args.folder:
+    out_dir = BASE_DIR / args.folder / "backdrops"
+
+else:
     single_id = args.id[0] if args.id else None
 
     if args.type == "curated":
         subfolder = "curated"
-        # Curated types just use the keyword directly (e.g., trending, top-rated)
         brand_name = str(tmdb_ids[0]).lower().replace("_", "-")
         out_dir = BASE_DIR / subfolder / brand_name / "backdrops"
+
     else:
         if args.type == "network":
             subfolder = "networks"
@@ -1030,36 +1037,74 @@ def main():
 
         if api_type == "provider":
             brand_name = f"unknown-{single_id}"
+
             try:
-                for endpoint in ("/watch/providers/tv", "/watch/providers/movie"):
-                    r = requests.get(f"https://api.themoviedb.org/3{endpoint}", params={"api_key": TMDB_API_KEY, "watch_region": "US"}, timeout=10)
+                for endpoint in (
+                    "/watch/providers/tv",
+                    "/watch/providers/movie",
+                ):
+                    r = requests.get(
+                        f"https://api.themoviedb.org/3{endpoint}",
+                        params={
+                            "api_key": TMDB_API_KEY,
+                            "watch_region": "US",
+                        },
+                        timeout=10,
+                    )
+
                     if r.status_code == 200:
                         providers = r.json().get("results", [])
-                        match = next((p for p in providers if p.get("provider_id") == single_id), None)
+                        match = next(
+                            (
+                                p
+                                for p in providers
+                                if p.get("provider_id") == single_id
+                            ),
+                            None,
+                        )
+
                         if match:
-                            brand_name = match.get("provider_name")
+                            brand_name = match["provider_name"]
                             break
+
             except Exception:
                 pass
+
         else:
-            url = f"https://api.themoviedb.org/3/{api_type}/{single_id}"
-            params = {"api_key": TMDB_API_KEY}
             try:
-                r = requests.get(url, params=params, timeout=10)
+                r = requests.get(
+                    f"https://api.themoviedb.org/3/{api_type}/{single_id}",
+                    params={"api_key": TMDB_API_KEY},
+                    timeout=10,
+                )
+
                 r.raise_for_status()
+
                 data = r.json()
-                brand_name = data.get("name") or data.get("title") or f"unknown-{single_id}"
+
+                brand_name = (
+                    data.get("name")
+                    or data.get("title")
+                    or f"unknown-{single_id}"
+                )
+
             except Exception:
                 brand_name = f"unknown-{single_id}"
 
-        slug = re.sub(r'[^a-z0-9]+', '-', brand_name.lower()).strip('-')
-        
-        # This is the ONLY place this specific format should be used
-        out_dir = BASE_DIR / subfolder / f"{single_id}-{slug}" / "backdrops"
+        slug = re.sub(
+            r"[^a-z0-9]+",
+            "-",
+            brand_name.lower()
+        ).strip("-")
 
-    # ── Folder Creation & Saving (Now runs after BOTH branches are correctly determined) ──
-    out_dir.mkdir(parents=True, exist_ok=True)
+        out_dir = (
+            BASE_DIR
+            / subfolder
+            / f"{single_id}-{slug}"
+            / "backdrops"
+        )
 
+out_dir.mkdir(parents=True, exist_ok=True)
     file_4k = out_dir / "t1_flat_4k.jpg"
     file_1080p = out_dir / "t1_flat_1080p.jpg"
 
